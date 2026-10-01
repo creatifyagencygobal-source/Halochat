@@ -1,0 +1,15 @@
+.auth-card { width: min(100%, 420px); padding: 26px 22px; border-radius: var(--radius-xl); }.brand-row { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; }.brand-row h1 { margin: 0; font-size: 21px; }.brand-row p { margin: 3px 0 0; font-size: 13px; }.intro h2 { margin: 0; font-size: clamp(28px, 9vw, 38px); line-height: 1.05; letter-spacing: -.05em; }.intro > p { margin: 12px 0 22px; line-height: 1.55; }
+.tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; padding: 5px; margin-bottom: 20px; background: rgba(0,0,0,.12); border: 1px solid var(--glass-border); border-radius: 15px; }.tab { min-height: 42px; color: var(--text-secondary); background: transparent; border: 0; border-radius: 11px; font-weight: 700; }.tab.active { color: var(--text-primary); background: var(--glass-bg-strong); box-shadow: 0 6px 18px rgba(0,0,0,.12); }
+.form { display: grid; gap: 15px; }.field { display: grid; gap: 7px; }.field label { font-size: 13px; color: var(--text-secondary); font-weight: 700; }.input-wrap { position: relative; }.input-wrap input { width: 100%; min-height: 52px; padding: 0 48px 0 15px; color: var(--text-primary); background: rgba(7,9,19,.2); border: 1px solid var(--glass-border); border-radius: var(--radius-md); }.input-wrap input:focus { border-color: var(--accent); background: var(--glass-bg-strong); outline: none; }.input-wrap .icon-button { position: absolute; right: 4px; top: 4px; }
+.error { min-height: 18px; margin: 0; color: var(--danger); font-size: 13px; }.form-status { padding: 11px 13px; border: 1px solid color-mix(in srgb, var(--danger), transparent 65%); border-radius: 12px; background: color-mix(in srgb, var(--danger), transparent 90%); }.hidden { display: none !important; }.footer-note { margin: 20px 0 0; color: var(--text-muted); font-size: 12px; line-height: 1.5; text-align: center; }
+.auth-card { max-height: calc(100dvh - max(32px, env(safe-area-inset-top)) - max(32px, env(safe-area-inset-bottom))); overflow-y: auto; }
+.input-wrap input { transition: border-color var(--transition), background var(--transition), box-shadow var(--transition); }
+.input-wrap input:focus { box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent), transparent 86%); }
+@media (max-width: 360px), (max-height: 640px) {
+  .screen { place-items: start center; padding-inline: 12px; }
+  .auth-card { padding: 20px 16px; border-radius: 24px; }
+  .brand-row { margin-bottom: 20px; }
+  .intro h2 { font-size: 28px; }
+  .intro > p { margin: 9px 0 17px; }
+  .form { gap: 11px; }
+}

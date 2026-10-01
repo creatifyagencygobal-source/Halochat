@@ -1,0 +1,16 @@
+function xhrUpload(url, form, onProgress) {
+  return new Promise((resolve,reject)=>{ const xhr=new XMLHttpRequest(); xhr.open('POST',url); xhr.withCredentials=true; xhr.setRequestHeader('X-CSRF-Token',csrfToken());
+    xhr.upload.onprogress=(event)=>{if(event.lengthComputable)onProgress?.(Math.round(event.loaded/event.total*100));};
+    xhr.onload=()=>{let body;try{body=JSON.parse(xhr.responseText);}catch{body={message:'Invalid server response.'};}if(xhr.status===401){sessionStorage.setItem('authNotice','Your session has expired. Please sign in again.');location.replace('/index.html');}xhr.status>=200&&xhr.status<300?resolve(body):reject(new Error(body.message||'Upload failed.'));};
+    xhr.onerror=()=>reject(new Error('Upload failed. Check your connection.')); xhr.send(form); });
+}
+window.ChatAPI = {
+  searchUsers: (query) => api(`/api/users/search?q=${encodeURIComponent(query)}`), getConversations: () => api('/api/conversations'),
+  createDirect: (userId) => api('/api/conversations/direct', { method:'POST',body:JSON.stringify({userId}) }), createGroup: (groupName,memberIds) => api('/api/conversations/group',{method:'POST',body:JSON.stringify({groupName,memberIds})}),
+  updateProfile:(username,currentPassword)=>api('/api/users/me',{method:'PATCH',body:JSON.stringify({username,currentPassword})}), changePassword:(currentPassword,newPassword,confirmPassword)=>api('/api/users/me/password',{method:'PATCH',body:JSON.stringify({currentPassword,newPassword,confirmPassword})}), updateSettings:(settings)=>api('/api/users/me/settings',{method:'PATCH',body:JSON.stringify(settings)}),
+  renameGroup:(id,groupName)=>api(`/api/conversations/${encodeURIComponent(id)}/group`,{method:'PATCH',body:JSON.stringify({groupName})}), addMembers:(id,memberIds)=>api(`/api/conversations/${encodeURIComponent(id)}/members`,{method:'POST',body:JSON.stringify({memberIds})}), removeMember:(id,userId)=>api(`/api/conversations/${encodeURIComponent(id)}/members/${encodeURIComponent(userId)}`,{method:'DELETE'}), leaveGroup:(id)=>api(`/api/conversations/${encodeURIComponent(id)}/leave`,{method:'POST'}),
+  getConversation:(id)=>api(`/api/conversations/${encodeURIComponent(id)}`), getMessages:(id,before)=>api(`/api/conversations/${encodeURIComponent(id)}/messages?limit=30${before?`&before=${encodeURIComponent(before)}`:''}`),
+  setConversationMute:(id,muted)=>api(`/api/conversations/${encodeURIComponent(id)}/mute`,{method:'PATCH',body:JSON.stringify({muted})}), clearConversation:(id)=>api(`/api/conversations/${encodeURIComponent(id)}/clear`,{method:'POST'}),
+  uploadAttachments(conversationId,files,caption,clientMessageId,onProgress){const form=new FormData();files.forEach((file)=>form.append('attachments',file));form.append('caption',caption||'');form.append('clientMessageId',clientMessageId);return xhrUpload(`/api/media/conversations/${encodeURIComponent(conversationId)}`,form,onProgress);},
+  uploadAvatar(file,onProgress){const form=new FormData();form.append('avatar',file);return xhrUpload('/api/users/avatar',form,onProgress);}, removeAvatar:()=>api('/api/users/avatar',{method:'DELETE'}), recordDownload:(messageId,index)=>api(`/api/media/messages/${encodeURIComponent(messageId)}/attachments/${index}/download`,{method:'POST'}),
+};

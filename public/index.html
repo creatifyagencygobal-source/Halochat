@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+  <meta name="theme-color" content="#090b14"><title>Halo — Private chat</title>
+  <link rel="stylesheet" href="/css/variables.css"><link rel="stylesheet" href="/css/global.css"><link rel="stylesheet" href="/css/auth.css">
+  <script src="/js/theme.js"></script>
+</head>
+<body>
+  <div class="ambient" aria-hidden="true"></div>
+  <main class="screen">
+    <section class="auth-card glass" aria-labelledby="auth-title">
+      <header class="brand-row"><div class="brand-mark" aria-hidden="true">H</div><div><h1>Halo</h1><p class="muted">Your private corner.</p></div></header>
+      <div class="intro"><h2 id="auth-title">Welcome back.</h2><p class="muted">Close conversations, thoughtfully designed.</p></div>
+      <div class="tabs" role="tablist" aria-label="Authentication mode">
+        <button class="tab active" type="button" role="tab" aria-selected="true" data-mode="login">Log in</button>
+        <button class="tab" type="button" role="tab" aria-selected="false" data-mode="register">Sign up</button>
+      </div>
+      <form id="auth-form" class="form" novalidate>
+        <div class="field"><label for="username">Username</label><div class="input-wrap"><input id="username" name="username" type="text" minlength="3" maxlength="24" pattern="[A-Za-z0-9_]+" autocomplete="username" autocapitalize="none" spellcheck="false" required></div><p class="error" data-error="username" aria-live="polite"></p></div>
+        <div class="field"><label for="password">Password</label><div class="input-wrap"><input id="password" name="password" type="password" minlength="8" maxlength="128" autocomplete="current-password" required><button class="icon-button" type="button" data-toggle-password="password" aria-label="Show password">Show</button></div><p class="error" data-error="password" aria-live="polite"></p></div>
+        <div id="confirm-field" class="field hidden"><label for="confirmPassword">Confirm password</label><div class="input-wrap"><input id="confirmPassword" name="confirmPassword" type="password" minlength="8" maxlength="128" autocomplete="new-password"><button class="icon-button" type="button" data-toggle-password="confirmPassword" aria-label="Show confirmed password">Show</button></div><p class="error" data-error="confirmPassword" aria-live="polite"></p></div>
+        <p id="form-status" class="error form-status hidden" role="alert"></p>
+        <button id="submit-button" class="button button-primary" type="submit">Log in</button>
+      </form>
+      <p class="footer-note">Your session is kept in a secure, HTTP-only cookie.</p>
+    </section>
+  </main>
+  <script src="/js/api.js"></script><script src="/js/auth.js"></script>
+</body></html>
